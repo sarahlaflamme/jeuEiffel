@@ -26,6 +26,7 @@ feature {NONE} -- Initialization
 			set_depart_x(60)
 			set_depart_y(80)
 			set_dimension_fond_tableau(calculer_dimension_fond_tableau)
+			set_index_animation_bloc_arc_en_ciel(1)
 
 			create fond_tableau.make (dimension_fond_tableau, dimension_fond_tableau)
 			fond_tableau.fill_rect (create {GAME_COLOR}.make_rgb(255, 255, 255), 0, 0, 415, 415)
@@ -43,8 +44,11 @@ feature -- Attributs
 	fond_tableau:GAME_SURFACE
 		-- Rectangle représentant le fond du tableau
 
-	dimension_fond_tableau: INTEGER
+	dimension_fond_tableau: INTEGER assign set_dimension_fond_tableau
 		-- Largeur et hauteur du fond du tableau
+
+	index_animation_bloc_arc_en_ciel: INTEGER assign set_index_animation_bloc_arc_en_ciel
+		-- Nombe représentant la position à afficher dans l'animation
 
 
 feature -- Setters
@@ -63,6 +67,13 @@ feature -- Setters
 			dimension_fond_tableau := a_dimension_fond_tableau
 		end
 
+	set_index_animation_bloc_arc_en_ciel(a_index_animation_bloc_arc_en_ciel: INTEGER)
+		-- Assigne l'index de l'animation des blocs arc-en-ciel
+
+		do
+			index_animation_bloc_arc_en_ciel := a_index_animation_bloc_arc_en_ciel
+		end
+
 
 feature -- Méthodes
 
@@ -70,7 +81,7 @@ feature -- Méthodes
 		-- Retourne la dimension que le fond du tableau doit avoir en fonction du nombre de blocs
 		-- Nombre de blocs * largeur des blocs + 2*10 pixels de chaque côté + ((Nombre de blocs -1) * 5 pixels entre les blocs)
 		do
-			Result := (regles_partie.taille_tableau * images_factory.image_bloc_arc_en_ciel.width)
+			Result := (regles_partie.taille_tableau * images_factory.image_bloc_arc_en_ciel1.width)
 						+ (2 * 10) + ((regles_partie.taille_tableau - 1) * 5)
 
 		end
@@ -81,6 +92,7 @@ feature -- Méthodes
 		do
 			tableau_associe := a_tableau
 			controleur.screen_surface.draw_surface (fond_tableau, depart_x, depart_y)
+			animation_blocs_arc_en_ciel
 			afficher_blocs
 		end
 
@@ -105,7 +117,6 @@ feature -- Méthodes
 				as
 					ligne
 				loop
-
 					controleur.screen_surface.draw_surface (ligne.item.image, x, y)
 					ligne.item.image_depart_x := x
 					ligne.item.image_depart_y := y
@@ -117,6 +128,30 @@ feature -- Méthodes
 
 			end
 
+
+		end
+
+	animation_blocs_arc_en_ciel
+		-- Assigne l'image correspondante à l'animation pour tous les blocs
+		do
+			across
+				tableau_associe.liste_blocs
+			as
+				la_liste_blocs
+			loop
+				across
+					la_liste_blocs.item
+				as
+					ligne
+				loop
+					if attached {TYPE_ARC_EN_CIEL} ligne.item.type then
+						ligne.item.set_image (images_factory.liste_images_bloc_arc_en_ciel.at (index_animation_bloc_arc_en_ciel))
+
+					end
+
+				end
+
+			end
 
 		end
 

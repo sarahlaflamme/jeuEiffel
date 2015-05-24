@@ -141,7 +141,7 @@ feature -- Methodes
 		do
 			if attached {TYPE_ARC_EN_CIEL} type then
 
-				set_image(images_factory.image_bloc_arc_en_ciel)
+				set_image(images_factory.image_bloc_arc_en_ciel1)
 
 --			else
 --				across

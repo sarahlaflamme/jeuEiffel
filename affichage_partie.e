@@ -66,6 +66,10 @@ feature -- Attributs
 	bouton_terminer:BOUTON
 		-- Bouton permettant de terminer la partie
 
+	compteur_iteration: INTEGER
+		-- Compteur pour permettre de changer l'animation du bloc arc-en-ciel une fois sur X
+		-- (par exemple 1 fois à chaque 20 itérations)
+
 
 
 
@@ -105,7 +109,9 @@ feature -- Événements
 				if (x > partie.selection.coin_haut_gauche.image_depart_x) and (x < partie.selection.coin_haut_gauche.image_depart_x + partie.selection.image.width) and
 				(y > partie.selection.coin_haut_gauche.image_depart_y) and (y < partie.selection.coin_haut_gauche.image_depart_y + partie.selection.image.height) then
 
-
+					partie.selection.set_image (images_factory.image_selection_animation1)
+					partie.selection.set_image (images_factory.image_selection_animation2)
+					partie.selection.set_image (images_factory.image_selection)
 					partie.tableau.tourner_blocs(partie.selection.coin_haut_gauche)
 					partie.tableau.verifier_combos
 					partie.ajouter_points (partie.tableau.nb_blocs_detruits)
@@ -121,6 +127,15 @@ feature -- Événements
 	on_iteration
 			-- Méthode lancée à chaque itération du jeu. Redessine les différentes zones du jeu
 		do
+			compteur_iteration := compteur_iteration + 1
+			if compteur_iteration >= 10 then
+				zone_tableau.index_animation_bloc_arc_en_ciel := ((zone_tableau.index_animation_bloc_arc_en_ciel)\\
+																images_factory.liste_images_bloc_arc_en_ciel.count) + 1
+				compteur_iteration := 0
+
+			end
+
+
 			zone_tableau.dessiner(partie.tableau)
 			zone_temps.dessiner
 			zone_score.dessiner(partie.score)

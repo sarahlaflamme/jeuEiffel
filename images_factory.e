@@ -49,12 +49,30 @@ feature {NONE} -- Initialisation
 			create {GAME_SURFACE_IMG_FILE} image_bloc_orange_temps_bonus.make("Images/Bloc_Orange_TempsBonus.png")
 			create {GAME_SURFACE_IMG_FILE} image_bloc_orange_double_points.make("Images/Bloc_Orange_DoublePoints.png")
 
-			create {GAME_SURFACE_IMG_FILE} image_bloc_arc_en_ciel.make("Images/Bloc_Arc_en_Ciel.png")
+			create {GAME_SURFACE_IMG_FILE} image_bloc_arc_en_ciel1.make("Images/Bloc_Arc_en_Ciel1.png")
+			create {GAME_SURFACE_IMG_FILE} image_bloc_arc_en_ciel2.make("Images/Bloc_Arc_en_Ciel2.png")
+			create {GAME_SURFACE_IMG_FILE} image_bloc_arc_en_ciel3.make("Images/Bloc_Arc_en_Ciel3.png")
+			create {GAME_SURFACE_IMG_FILE} image_bloc_arc_en_ciel4.make("Images/Bloc_Arc_en_Ciel4.png")
+			create {GAME_SURFACE_IMG_FILE} image_bloc_arc_en_ciel5.make("Images/Bloc_Arc_en_Ciel5.png")
+			create {GAME_SURFACE_IMG_FILE} image_bloc_arc_en_ciel6.make("Images/Bloc_Arc_en_Ciel6.png")
+			create {GAME_SURFACE_IMG_FILE} image_bloc_arc_en_ciel7.make("Images/Bloc_Arc_en_Ciel7.png")
+			create {ARRAYED_LIST[GAME_SURFACE]} liste_images_bloc_arc_en_ciel.make (7)
+			liste_images_bloc_arc_en_ciel.extend (image_bloc_arc_en_ciel1)
+			liste_images_bloc_arc_en_ciel.extend (image_bloc_arc_en_ciel2)
+			liste_images_bloc_arc_en_ciel.extend (image_bloc_arc_en_ciel3)
+			liste_images_bloc_arc_en_ciel.extend (image_bloc_arc_en_ciel4)
+			liste_images_bloc_arc_en_ciel.extend (image_bloc_arc_en_ciel5)
+			liste_images_bloc_arc_en_ciel.extend (image_bloc_arc_en_ciel6)
+			liste_images_bloc_arc_en_ciel.extend (image_bloc_arc_en_ciel7)
+
 
 
 			-- Images de la partie
 			create {GAME_SURFACE_IMG_FILE} image_sablier.make_with_alpha ("Images/Sablier.png")
+
 			create {GAME_SURFACE_IMG_FILE} image_selection.make_with_alpha ("Images/Selection.png")
+			create {GAME_SURFACE_IMG_FILE} image_selection_animation1.make_with_alpha ("Images/Selection_Animation1.png")
+			create {GAME_SURFACE_IMG_FILE} image_selection_animation2.make_with_alpha ("Images/Selection_Animation2.png")
 		end
 
 feature -- Images
@@ -94,8 +112,22 @@ feature -- Images
 	image_bloc_orange_double_points: GAME_SURFACE
 		-- Image d'un bloc orange de type 'Double Points'
 
-	image_bloc_arc_en_ciel: GAME_SURFACE
-		-- Image d'un bloc de n'importe quelle couleur de type 'Arc-en-ciel'
+	image_bloc_arc_en_ciel1: GAME_SURFACE
+		-- Image d'un bloc de n'importe quelle couleur de type 'Arc-en-ciel' (animation 1)
+	image_bloc_arc_en_ciel2: GAME_SURFACE
+		-- Image d'un bloc de n'importe quelle couleur de type 'Arc-en-ciel' (animation 2)
+	image_bloc_arc_en_ciel3: GAME_SURFACE
+		-- Image d'un bloc de n'importe quelle couleur de type 'Arc-en-ciel' (animation 3)
+	image_bloc_arc_en_ciel4: GAME_SURFACE
+		-- Image d'un bloc de n'importe quelle couleur de type 'Arc-en-ciel' (animation 4)
+	image_bloc_arc_en_ciel5: GAME_SURFACE
+		-- Image d'un bloc de n'importe quelle couleur de type 'Arc-en-ciel' (animation 5)
+	image_bloc_arc_en_ciel6: GAME_SURFACE
+		-- Image d'un bloc de n'importe quelle couleur de type 'Arc-en-ciel' (animation 6)
+	image_bloc_arc_en_ciel7: GAME_SURFACE
+		-- Image d'un bloc de n'importe quelle couleur de type 'Arc-en-ciel' (animation 7)		
+	liste_images_bloc_arc_en_ciel: LIST[GAME_SURFACE]
+		-- Liste contenant les images du bloc arc_en_ciel
 
 	image_menu: GAME_SURFACE
 		--Image du menu
@@ -118,7 +150,12 @@ feature -- Images
 
 	image_sablier: GAME_SURFACE
 		-- Image du sablier au dessus du temps restant dans une partie
+
 	image_selection: GAME_SURFACE
+		-- Image du carré autour des 4 blocs sélectionnés
+	image_selection_animation1: GAME_SURFACE
+		-- Image du carré autour des 4 blocs sélectionnés
+	image_selection_animation2: GAME_SURFACE
 		-- Image du carré autour des 4 blocs sélectionnés
 
 
