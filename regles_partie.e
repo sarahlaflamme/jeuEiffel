@@ -18,7 +18,7 @@ feature {NONE} -- Initialisation
 
 			set_taille_tableau(8)
 			set_duree_partie(500)
-			set_points_par_bloc(5)
+			set_points_par_bloc(1)
 			set_nb_temps_bonus(25)
 			generer_liste_couleurs
 			generer_liste_types

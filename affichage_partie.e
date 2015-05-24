@@ -28,8 +28,10 @@ feature {NONE} -- Initialisation
 
 			set_partie(a_partie_en_cours)
 			create zone_tableau.make(partie.tableau)
-			create zone_score.make
-			create zone_temps.make
+			create zone_score.make(partie.score)
+			create zone_temps.make(partie.temps_restant)
+			create bouton_terminer.make (images_factory.image_bouton_terminer, images_factory.image_bouton_terminer_hover, 590, 440)
+			controleur.screen_surface.draw_surface (bouton_terminer.image, bouton_terminer.depart_x, bouton_terminer.depart_y)
 
 			controleur.flip_screen
 
@@ -60,6 +62,9 @@ feature -- Attributs
 
 	zone_temps: ZONE_TEMPS
 		-- Zone représentant l'affichage du temps restant à la partie
+
+	bouton_terminer:BOUTON
+		-- Bouton permettant de terminer la partie
 
 
 
@@ -103,6 +108,8 @@ feature -- Événements
 
 					partie.tableau.tourner_blocs(partie.selection.coin_haut_gauche)
 					partie.tableau.verifier_combos
+					partie.ajouter_points (partie.tableau.nb_blocs_detruits)
+					partie.tableau.reset_nb_blocs_detruits
 
 				end
 
@@ -112,10 +119,11 @@ feature -- Événements
 
 
 	on_iteration
-			-- Méthode lancée à chaque itération du jeu
+			-- Méthode lancée à chaque itération du jeu. Redessine les différentes zones du jeu
 		do
 			zone_tableau.dessiner(partie.tableau)
 			zone_temps.dessiner
+			zone_score.dessiner(partie.score)
 			controleur.screen_surface.draw_surface (partie.selection.image, partie.selection.coin_haut_gauche.image_depart_x - 5, partie.selection.coin_haut_gauche.image_depart_y - 5)
 			controleur.flip_screen
 		end

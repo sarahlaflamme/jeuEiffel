@@ -8,6 +8,7 @@ class
 
 inherit
 	REGLES_PARTIE_SHARED
+	SONS_FACTORY_SHARED
 
 create
 	make
@@ -57,6 +58,11 @@ feature -- Attributs
 	liste_blocs:LIST[LIST[BLOC]] assign set_liste_blocs
 			-- Liste des blocs qui se trouvent présentement dans le tableau.
 			-- Chaque liste correspond à une ligne du tableau
+
+	nb_blocs_detruits: INTEGER
+		-- Nombre de blocs qui ont été détruits mais dont les points n'ont pas été calculés
+
+
 
 feature -- Setters
 
@@ -112,6 +118,8 @@ feature -- Methodes
 			liste_blocs.at(y_depart + 1).at(x_depart).couleur := l_bloc_3.couleur
 			liste_blocs.at(y_depart + 1).at(x_depart).type := l_bloc_3.type
 			liste_blocs.at(y_depart + 1).at(x_depart).selectionner_image
+
+			--sons_factory.jouer_son (sons_factory.son_tourner)
 
 		end
 
@@ -173,15 +181,15 @@ feature -- Methodes
 			l_bloc_bas := liste_blocs.at (a_bloc.y + 1).at (a_bloc.x)
 			l_bloc_gauche_bas := liste_blocs.at (a_bloc.y + 1).at (a_bloc.x +1)
 
-			if attached {TYPE_ARC_EN_CIEL} l_bloc_gauche.couleur or l_bloc_gauche.couleur = a_bloc.couleur then
+			if attached {TYPE_ARC_EN_CIEL} l_bloc_gauche.type or l_bloc_gauche.couleur = a_bloc.couleur then
 				l_compteur := l_compteur + 1
 			end
 
-			if attached {TYPE_ARC_EN_CIEL} l_bloc_bas.couleur or l_bloc_bas.couleur = a_bloc.couleur then
+			if attached {TYPE_ARC_EN_CIEL} l_bloc_bas.type or l_bloc_bas.couleur = a_bloc.couleur then
 				l_compteur := l_compteur + 1
 			end
 
-			if attached {TYPE_ARC_EN_CIEL} l_bloc_gauche_bas.couleur or l_bloc_gauche_bas.couleur = a_bloc.couleur then
+			if attached {TYPE_ARC_EN_CIEL} l_bloc_gauche_bas.type or l_bloc_gauche_bas.couleur = a_bloc.couleur then
 				l_compteur := l_compteur + 1
 			end
 
@@ -197,21 +205,47 @@ feature -- Methodes
 	detruire_blocs(a_blocs_a_detruire: LIST[BLOC])
 		-- Détruit les blocs qui ont formé un carré, ajoute les points correspondants et génère de nouveaux blocs
 		local
-			nb_blocs_detruits: INTEGER
+			l_nb_blocs_detruits: INTEGER
 		do
-			nb_blocs_detruits := a_blocs_a_detruire.count
+			l_nb_blocs_detruits := a_blocs_a_detruire.count
 
 			across
 				a_blocs_a_detruire
 			as
 				la_blocs_a_detruire
 			loop
-				if attached {TYPE_DOUBLE_POINTS} liste_blocs.at (la_blocs_a_detruire.item.y).at (la_blocs_a_detruire.item.x) then
+				-- Vérifie si le bloc à détruire a un type spécial
+				if attached {TYPE_DOUBLE_POINTS} liste_blocs.at (la_blocs_a_detruire.item.y).at (la_blocs_a_detruire.item.x).type then
+					l_nb_blocs_detruits := l_nb_blocs_detruits + 1
+
+				elseif attached {TYPE_TEMPS_BONUS} liste_blocs.at (la_blocs_a_detruire.item.y).at (la_blocs_a_detruire.item.x).type then
+					-- À faire: gérer temps à ajouter
 
 				end
+
+				-- Remplacement du bloc dans la liste par un nouveau bloc généré au hasard
 				liste_blocs.at (la_blocs_a_detruire.item.y).at (la_blocs_a_detruire.item.x) := create {BLOC}.make_hasard (la_blocs_a_detruire.item.x, la_blocs_a_detruire.item.y)
 
 			end
 
+			-- Calcul des points à ajouter
+			nb_blocs_detruits := nb_blocs_detruits + l_nb_blocs_detruits
+
+			-- Son
+			sons_factory.jouer_son (sons_factory.son_detruire)
+
+			-- Relance la vérification au cas où d'autres combos se sont formés suite à la destruction
+			verifier_combos
+
 		end
+
+
+	reset_nb_blocs_detruits
+		-- Remet à zéro le nombre de blocs détruits (lorsque les points correspondants ont été ajoutés)
+		do
+			nb_blocs_detruits := 0
+		end
+
+
+
 end

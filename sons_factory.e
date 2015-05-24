@@ -27,9 +27,13 @@ feature {NONE} -- Initialisation
 			controleur_audio.add_source
 			source_sons:=controleur_audio.last_source
 
-			-- Images du menu
+			-- Musiques
 			create {AUDIO_SOUND_SND_FILE} musique_menu.make ("Sons/Life_of_Riley.wav")
 			create {AUDIO_SOUND_SND_FILE} musique_partie.make ("Sons/Happy_Bee.wav")
+
+			--Sons
+			create {AUDIO_SOUND_SND_FILE} son_tourner.make ("Sons/Son_Tourner.wav")
+			create {AUDIO_SOUND_SND_FILE} son_detruire.make ("Sons/Son_Detruire.wav")
 
 
 		end
@@ -54,6 +58,11 @@ feature -- Musiques et sons
 		-- Musique qui joue dans le menu principal et la page d'instructions
 	musique_partie: AUDIO_SOUND
 		-- Musique qui joue durant une partie
+
+	son_tourner: AUDIO_SOUND
+		-- Son lorsque des blocs sont tournés
+	son_detruire: AUDIO_SOUND
+		-- Son lorsque des blocs sont détruits
 
 
 feature -- Méthodes

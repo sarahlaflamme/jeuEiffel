@@ -14,7 +14,7 @@ create
 
 feature {NONE} -- Initialisation
 
-	make
+	make(a_temps_restant: INTEGER)
 			-- Constructeur de `Current'.
 		do
 			controleur := controleurs_factory.controleur
@@ -26,10 +26,10 @@ feature {NONE} -- Initialisation
 			create couleur_texte.make_rgb(255, 255, 255)
 
 
-			set_temps_restant(500)
+			set_temps_restant(a_temps_restant)
 
 			image_sablier := images_factory.image_sablier
-			set_image_sablier_depart_x(630)
+			set_image_sablier_depart_x(620)
 			set_image_sablier_depart_y(85)
 			controleur.screen_surface.draw_surface (image_sablier, image_sablier_depart_x, image_sablier_depart_y)
 
@@ -41,13 +41,15 @@ feature {NONE} -- Initialisation
 
 feature -- Attributs
 
-	temps_restant: INTEGER
+	temps_restant: INTEGER assign set_temps_restant
 		-- Temps à afficher dans la zone
 
 	image_sablier:GAME_SURFACE
 		-- Image de sablier
+
 	image_sablier_depart_x: INTEGER assign set_image_sablier_depart_x
 		-- Position de départ horizontale de l'image du sablier
+		
 	image_sablier_depart_y: INTEGER assign set_image_sablier_depart_y
 		-- Position de départ verticale de l'image du sablier
 

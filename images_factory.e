@@ -24,6 +24,8 @@ feature {NONE} -- Initialisation
 			create {GAME_SURFACE_IMG_FILE} image_bouton_instructions_hover.make_with_alpha ("Images/Bouton_Instructions_Hover.png")
 			create {GAME_SURFACE_IMG_FILE} image_bouton_a_propos.make_with_alpha ("Images/Bouton_A_Propos.png")
 			create {GAME_SURFACE_IMG_FILE} image_bouton_a_propos_hover.make_with_alpha ("Images/Bouton_A_Propos_Hover.png")
+			create {GAME_SURFACE_IMG_FILE} image_bouton_terminer.make_with_alpha ("Images/Bouton_Terminer.png")
+			create {GAME_SURFACE_IMG_FILE} image_bouton_terminer_hover.make_with_alpha ("Images/Bouton_Terminer_Hover.png")
 
 
 			-- Blocs
@@ -109,6 +111,10 @@ feature -- Images
 		-- Image du bouton À propos
 	image_bouton_a_propos_hover: GAME_SURFACE
 		-- Image du bouton À propos lorsque la souris est dessus
+	image_bouton_terminer: GAME_SURFACE
+		-- Image du bouton Terminer
+	image_bouton_terminer_hover: GAME_SURFACE
+		-- Image du bouton Terminer lorsque la souris est dessus
 
 	image_sablier: GAME_SURFACE
 		-- Image du sablier au dessus du temps restant dans une partie
