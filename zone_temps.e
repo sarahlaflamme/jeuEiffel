@@ -9,6 +9,10 @@ class
 inherit
 	ZONE
 
+	redefine
+		dessiner
+	end
+
 create
 	make
 
@@ -25,17 +29,11 @@ feature {NONE} -- Initialisation
 			create police_texte_temps.make ("estre.ttf", 50)
 			create couleur_texte.make_rgb(255, 255, 255)
 
-
 			set_temps_restant(a_temps_restant)
 
 			image_sablier := images_factory.image_sablier
 			set_image_sablier_depart_x(620)
 			set_image_sablier_depart_y(85)
-			controleur.screen_surface.draw_surface (image_sablier, image_sablier_depart_x, image_sablier_depart_y)
-
-
-			create texte_temps.make_blended (temps_restant.out, police_texte_temps, couleur_texte)
-			controleur.screen_surface.draw_surface (texte_temps, image_sablier_depart_x, image_sablier_depart_y + 90)
 
 		end
 
@@ -49,7 +47,7 @@ feature -- Attributs
 
 	image_sablier_depart_x: INTEGER assign set_image_sablier_depart_x
 		-- Position de départ horizontale de l'image du sablier
-		
+
 	image_sablier_depart_y: INTEGER assign set_image_sablier_depart_y
 		-- Position de départ verticale de l'image du sablier
 
@@ -89,6 +87,7 @@ feature -- Méthodes
 	dessiner
 		-- Dessiner tous les éléments de la zone
 		do
+			create texte_temps.make_blended (temps_restant.out, police_texte_temps, couleur_texte)
 			controleur.screen_surface.draw_surface (image_sablier, image_sablier_depart_x, image_sablier_depart_y)
 			controleur.screen_surface.draw_surface (texte_temps, image_sablier_depart_x, image_sablier_depart_y + 90)
 		end

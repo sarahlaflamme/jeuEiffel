@@ -51,8 +51,17 @@ feature -- Attributs
 	controleur_texte: GAME_TEXT_CONTROLLER
 		-- Controleur de la librairie de texte
 
-	partie_demarree: BOOLEAN
-		-- Indique si la partie doit être démarrée
+	affichage_menu:AFFICHAGE_MENU
+		-- Écran représentant le menu du jeu
+
+	affichage_partie: AFFICHAGE_PARTIE
+		-- Écran représentant une partie du jeu
+
+	affichage_fin_partie: AFFICHAGE_FIN_PARTIE
+		-- Écran représentant la fin d'une partie
+
+	affichage_instructions: AFFICHAGE_INSTRUCTIONS
+		-- Écran représentant les instructions du jeu
 
 
 feature -- Méthodes
@@ -60,17 +69,34 @@ feature -- Méthodes
 	lancer_jeu
 		-- Fonction principale du jeu
 		local
-			affichage_menu:AFFICHAGE_MENU
+
 		do
 			-- Création de la fenêtre
 			controleur.create_screen_surface (800, 600, 16, true, true, false, true, false)
 
-			-- Affichage du menu
 			create affichage_menu.make
-
+			affichage_menu.set_en_cours (true)
 			controleur.launch
 
-
 		end
+
+
+	on_iteration
+		-- Rafraichit l'image à chaque itération
+		do
+--			controleur.screen_surface.fill_rect (create {GAME_COLOR}.make_rgb(43, 24, 24), 0, 0, controleur.screen_surface.width, controleur.screen_surface.height)
+--			if affichage_menu.partie_lancee = true then
+--				create affichage_partie.make (create {PARTIE}.make)
+--				affichage_partie.set_en_cours (true)
+--				affichage_menu.set_partie_lancee (false)
+--			elseif affichage_partie /= Void then
+--				if affichage_partie.partie_terminee then
+--					create affichage_fin_partie.make(affichage_partie.partie.score)
+--					affichage_fin_partie.set_en_cours (true)
+--					affichage_partie.set_partie_terminee (false)
+--				end
+--			end
+		end
+
 
 end

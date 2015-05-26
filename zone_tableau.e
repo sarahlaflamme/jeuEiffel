@@ -9,12 +9,16 @@ class
 inherit
 	ZONE
 
+	redefine
+		dessiner
+	end
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make(a_tableau_associe: TABLEAU)
+	make(a_tableau: TABLEAU)
 			-- Constructeur de `Current'.
 		do
 			controleur := controleurs_factory.controleur
@@ -22,7 +26,7 @@ feature {NONE} -- Initialization
 			controleur_audio := controleurs_factory.controleur_audio
 			controleur_texte := controleurs_factory.controleur_texte
 
-			set_tableau_associe(a_tableau_associe)
+			set_tableau(a_tableau)
 			set_depart_x(60)
 			set_depart_y(80)
 			set_dimension_fond_tableau(calculer_dimension_fond_tableau)
@@ -30,15 +34,12 @@ feature {NONE} -- Initialization
 
 			create fond_tableau.make (dimension_fond_tableau, dimension_fond_tableau)
 			fond_tableau.fill_rect (create {GAME_COLOR}.make_rgb(255, 255, 255), 0, 0, 415, 415)
-			controleur.screen_surface.draw_surface (fond_tableau, depart_x, depart_y)
-
-			dessiner(a_tableau_associe)
 
 		end
 
 feature -- Attributs
 
-	tableau_associe: TABLEAU assign set_tableau_associe
+	tableau: TABLEAU assign set_tableau
 		-- Tableau à afficher dans la zone
 
 	fond_tableau:GAME_SURFACE
@@ -53,11 +54,11 @@ feature -- Attributs
 
 feature -- Setters
 
-	set_tableau_associe(a_tableau_associe: TABLEAU)
+	set_tableau(a_tableau: TABLEAU)
 		-- Assigne le tableau à afficher dans la zone
 
 		do
-			tableau_associe := a_tableau_associe
+			tableau := a_tableau
 		end
 
 	set_dimension_fond_tableau(a_dimension_fond_tableau: INTEGER)
@@ -87,10 +88,9 @@ feature -- Méthodes
 		end
 
 
-	dessiner(a_tableau: TABLEAU)
-		-- Dessine toute la zone
+	dessiner
+		-- <Precursor>
 		do
-			tableau_associe := a_tableau
 			controleur.screen_surface.draw_surface (fond_tableau, depart_x, depart_y)
 			animation_blocs_arc_en_ciel
 			afficher_blocs
@@ -108,7 +108,7 @@ feature -- Méthodes
 			y := depart_y + 10
 
 			across
-				tableau_associe.liste_blocs
+				tableau.liste_blocs
 			as
 				la_liste_blocs
 			loop
@@ -135,7 +135,7 @@ feature -- Méthodes
 		-- Assigne l'image correspondante à l'animation pour tous les blocs
 		do
 			across
-				tableau_associe.liste_blocs
+				tableau.liste_blocs
 			as
 				la_liste_blocs
 			loop

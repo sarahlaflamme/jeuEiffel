@@ -30,19 +30,15 @@ feature {NONE} -- Initialization
 			set_x(a_x)
 			set_y(a_y)
 
-			controleur := controleurs_factory.controleur
-			controleur_images := controleurs_factory.controleur_images
-			controleur_audio := controleurs_factory.controleur_audio
-
 			-- Générer un nombre au hasard pour chiffre_couleur (entre 1 et 5)
 			l_nb_couleurs := regles_partie.liste_couleurs.count
-			controleur.generate_new_random
-			l_chiffre_couleur := controleur.last_random_integer_between (1, l_nb_couleurs)
+			controleurs_factory.controleur.generate_new_random
+			l_chiffre_couleur := controleurs_factory.controleur.last_random_integer_between (1, l_nb_couleurs)
 
 			-- Générer un nombre au hasard pour chiffre_type (entre 1 et 20)
 			l_nb_types := regles_partie.liste_types_probabilites.count
-			controleur.generate_new_random
-			l_chiffre_type := controleur.last_random_integer_between (1, l_nb_types)
+			controleurs_factory.controleur.generate_new_random
+			l_chiffre_type := controleurs_factory.controleur.last_random_integer_between (1, l_nb_types)
 
 			set_couleur(regles_partie.liste_couleurs[l_chiffre_couleur])
 			set_type(regles_partie.liste_types_probabilites[l_chiffre_type])
@@ -51,16 +47,6 @@ feature {NONE} -- Initialization
 
 		end
 
-feature -- Controleurs
-
-	controleur:GAME_LIB_CONTROLLER
-		-- Controleur de la librairie de jeu
-
-	controleur_images:GAME_IMG_CONTROLLER
-		-- Controleur de la librairie d'images
-
-	controleur_audio: AUDIO_CONTROLLER
-		-- Controleur de la librairie audio
 
 feature -- Attributs
 

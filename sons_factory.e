@@ -29,7 +29,7 @@ feature {NONE} -- Initialisation
 
 			-- Musiques
 			create {AUDIO_SOUND_SND_FILE} musique_menu.make ("Sons/Life_of_Riley.wav")
-			create {AUDIO_SOUND_SND_FILE} musique_partie.make ("Sons/Happy_Bee.wav")
+			create {AUDIO_SOUND_SND_FILE} musique_partie.make ("Sons/Carefree.wav")
 
 			--Sons
 			create {AUDIO_SOUND_SND_FILE} son_tourner.make ("Sons/Son_Tourner.wav")
@@ -70,6 +70,7 @@ feature -- Méthodes
 	jouer_musique(a_musique: AUDIO_SOUND)
 			-- Fait jouer la musique envoyée en boucle
 		do
+			source_musique.stop
 			source_musique.queue_sound_infinite_loop (a_musique)
 			source_musique.play
 			controleur.event_controller.on_iteration.extend (agent controleur_audio.update)

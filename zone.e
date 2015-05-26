@@ -49,4 +49,12 @@ feature -- Setters
 			depart_y := a_depart_y
 		end
 
+feature -- Méthodes
+
+	dessiner
+		-- Affichage de toutes les composantes de la zone
+		do
+			
+		end
+
 end

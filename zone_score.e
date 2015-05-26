@@ -7,7 +7,11 @@ class
 	ZONE_SCORE
 
 inherit
-	AFFICHAGE
+	ZONE
+
+	redefine
+		dessiner
+	end
 
 create
 	make
@@ -30,13 +34,9 @@ feature {NONE} -- Initialisation
 			set_fond_depart_y(300)
 
 			create fond.make (200, 130)
-			fond.fill_rect (couleur_fond, 0, 0, fond_depart_x, fond_depart_y)
-			controleur.screen_surface.draw_surface (fond, fond_depart_x, fond_depart_y)
+			fond.fill_rect (couleur_fond, 0, 0, 200, 130)
 
 			create titre_score.make_blended ("SCORE", police_texte_score, couleur_texte)
-			controleur.screen_surface.draw_surface (titre_score, fond_depart_x + 60, fond_depart_y + 15)
-
-			dessiner(a_score)
 
 		end
 
@@ -96,12 +96,14 @@ feature -- Setters
 
 feature -- Méthodes
 
-	dessiner(a_score: INTEGER)
-		-- Dessiner tous les éléments de la zone
+	dessiner
+		-- <Precursor>
 		do
-			set_score(a_score)
+			controleur.screen_surface.draw_surface (fond, fond_depart_x, fond_depart_y)
+			controleur.screen_surface.draw_surface (titre_score, fond_depart_x + 60, fond_depart_y + 15)
+
 			create texte_score.make_shaded (score.out + " points", police_texte_score, couleur_texte, couleur_fond)
-			controleur.screen_surface.draw_surface (texte_score, fond_depart_x + 50, fond_depart_y + 60)
+			controleur.screen_surface.draw_surface (texte_score, fond_depart_x + fond.width//2 - texte_score.width//2, fond_depart_y + 60)
 		end
 
 end
