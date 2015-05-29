@@ -10,7 +10,8 @@ inherit
 	AFFICHAGE
 
 	redefine
-		dessiner
+		dessiner,
+		lancer_musique
 	end
 
 create
@@ -28,9 +29,9 @@ feature {NONE} -- Initialisation
 			controleur_audio := controleurs_factory.controleur_audio
 			controleur_texte := controleurs_factory.controleur_texte
 
-			set_en_cours(false)
-			set_partie_terminee(false)
-			set_partie(a_partie)
+			en_cours := false
+			partie_terminee := false
+			partie := a_partie
 			create zone_tableau.make(partie.tableau)
 			create zone_score.make(partie.score)
 			create zone_temps.make(partie.temps_restant)
@@ -44,6 +45,8 @@ feature {NONE} -- Initialisation
 			controleur.event_controller.on_quit_signal.extend (agent on_quit)
 
 			lancer_musique
+
+			partie.tableau.verifier_combos
 
 		end
 
@@ -79,14 +82,20 @@ feature -- Setters
 
 	set_partie(a_partie: PARTIE)
 		-- Assigne la partie à afficher
+		require
+			partie_valide: a_partie /= Void
 		do
 			partie := a_partie
+		ensure
+			partie_set: partie = a_partie
 		end
 
 	set_partie_terminee(a_partie_terminee: BOOLEAN)
 		-- Assigne la valeur à partie_terminee
 		do
 			partie_terminee := a_partie_terminee
+		ensure
+			partie_terminee_set: partie = a_partie_terminee
 		end
 
 
@@ -94,14 +103,12 @@ feature -- Événements
 
 	on_mouse_move(x,y:NATURAL_16)
 			-- Méthode appelée lorsque la souris bouge dans la fenêtre
-		local
-
 		do
 			-- Vérifie si la souris se trouve à l'intérieur de la zone du tableau
 			if (x > zone_tableau.depart_x) and (x < zone_tableau.depart_y + zone_tableau.dimension_fond_tableau)and
 				(y > zone_tableau.depart_y) and (y < zone_tableau.depart_y + zone_tableau.dimension_fond_tableau) then
 
-				verifier_bloc_selectionne(x, y)
+				partie.selection.verifier_bloc_selectionne(partie.tableau.liste_blocs, x, y)
 				bouton_terminer.set_is_hover (false)
 
 			elseif (x > bouton_terminer.depart_x) and (x < bouton_terminer.depart_x + bouton_terminer.image.width) and (y > bouton_terminer.depart_y)
@@ -118,28 +125,25 @@ feature -- Événements
 
 	on_mouse_down(is_left_button, is_right_button, is_middle_button: BOOLEAN; x, y: NATURAL_16)
 			-- Méthode appelée lorsqu'un des boutons de la souris est appuyé
-		local
-			l_affichage_fin_partie: AFFICHAGE_FIN_PARTIE
 		do
 			if is_left_button then
 
 				if (x > partie.selection.coin_haut_gauche.image_depart_x) and (x < partie.selection.coin_haut_gauche.image_depart_x + partie.selection.image.width) and
 				(y > partie.selection.coin_haut_gauche.image_depart_y) and (y < partie.selection.coin_haut_gauche.image_depart_y + partie.selection.image.height) then
 
-					partie.selection.set_image (images_factory.image_selection_animation1)
-					partie.selection.set_image (images_factory.image_selection_animation2)
-					partie.selection.set_image (images_factory.image_selection)
+					partie.selection.image := images_factory.image_selection_animation1
+					partie.selection.image := images_factory.image_selection_animation2
+					partie.selection.image := images_factory.image_selection
 					partie.tableau.tourner_blocs(partie.selection.coin_haut_gauche)
 					partie.tableau.verifier_combos
 					partie.ajouter_points (partie.tableau.nb_blocs_detruits)
 					partie.tableau.reset_nb_blocs_detruits
+					partie.ajouter_temps (partie.tableau.nb_bonus_temps)
+					partie.tableau.reset_nb_bonus_temps
 
 				elseif (x > bouton_terminer.depart_x) and (x < bouton_terminer.depart_x + bouton_terminer.image.width) and (y > bouton_terminer.depart_y)
 						and (y < bouton_terminer.depart_y + bouton_terminer.image.height) then
-					set_partie_terminee(true)
-					set_en_cours(false)
-					create l_affichage_fin_partie.make (partie.score)
-					l_affichage_fin_partie.set_en_cours (true)
+					terminer_partie
 
 				end
 
@@ -159,8 +163,14 @@ feature -- Événements
 					compteur_iteration := 0
 
 				end
+				partie.calculer_temps_ecoule
+				partie.calculer_temps_restant
 
-				dessiner
+				if partie.temps_restant = 0 then
+					terminer_partie
+				else
+					dessiner
+				end
 			end
 		end
 
@@ -186,6 +196,7 @@ feature -- Méthodes
 
 			zone_tableau.set_tableau (partie.tableau)
 			zone_tableau.dessiner
+			zone_temps.set_temps_restant (partie.temps_restant)
 			zone_temps.dessiner
 			zone_score.set_score (partie.score)
 			zone_score.dessiner
@@ -195,55 +206,30 @@ feature -- Méthodes
 
 
 	lancer_musique
-		-- Lance la musique
+		-- <Precursor>
 		do
 			sons_factory.jouer_musique (sons_factory.musique_partie)
 		end
 
-
-	verifier_bloc_selectionne(a_x, a_y: INTEGER)
-		-- Vérifie la souris se trouve sur quel bloc et l'assigne à la sélection
+	terminer_partie
+		-- Terminer la partie lorsque le temps est écoulé ou que le joueur clique sur le bouton Terminer partie
 		local
-			i: INTEGER -- Compteur de chaque ligne
-			j: INTEGER -- Compter de chaque bloc d'une ligne
-			position: INTEGER
-			l_liste_blocs: LIST[LIST[BLOC]]
+			l_affichage_fin_partie: AFFICHAGE_FIN_PARTIE
 		do
-			l_liste_blocs := partie.tableau.liste_blocs
-
-				from
-				i := 1
-				until
-					i >= l_liste_blocs.count
-				loop
-
-					-- Vérifie tous les blocs de la ligne en cours et assigne le bloc à la sélection si besoin
-					from
-						j := 1
-					until
-						j >= l_liste_blocs.at(i).count
-					loop
-
-						if (a_x > l_liste_blocs.at(i).at(j).image_depart_x) and (a_x < l_liste_blocs.at(i).at(j).image_depart_x + l_liste_blocs.at(i).at(j).image.width)and
-						(a_y > l_liste_blocs.at(i).at(j).image_depart_y) and (a_y < l_liste_blocs.at(i).at(j).image_depart_y + l_liste_blocs.at(i).at(j).image.height) then
-
-							if i = l_liste_blocs.at(i).count then
-								position := j - 1
-							else
-								position := j
-							end
-
-							partie.selection.coin_haut_gauche := l_liste_blocs.at(i).at(position)
-
-						end
-
-						j := j+1
-					end
-
-					i := i+1
-
-			end
-
+			partie_terminee := true
+			en_cours := false
+			create l_affichage_fin_partie.make (partie.score)
+			l_affichage_fin_partie.en_cours := true
 		end
+
+
+	invariant
+		partie_initialise: partie /= Void
+		zone_tableau_initialise: zone_tableau /= Void
+		zone_score_initialise: zone_score /= Void
+		zone_temps_initialise: zone_temps /= Void
+		bouton_terminer_initialise: bouton_terminer /= Void
+		compteur_iteration_initialise: compteur_iteration /= Void
+		partie_terminee_initialise: partie_terminee /= Void
 
 end

@@ -8,7 +8,7 @@ deferred class
 
 feature
 
-	sons_factory:SONS_FACTORY
+	sons_factory: SONS_FACTORY
 		once
 			create Result.make
 		end

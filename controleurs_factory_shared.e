@@ -1,5 +1,5 @@
 note
-	description: "Summary description for {IMAGES_FACTORY_SHARED}."
+	description: "Classe permettant de partager la factory de controleurs en tant que singleton."
 	author: "Sarah Laflamme"
 	date: "$Date$"
 

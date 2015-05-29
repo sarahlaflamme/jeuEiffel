@@ -206,3 +206,183 @@ APPLICATION         make @1
 APPLICATION         root's creation                                     
 <0000000003B35418>                         Routine failure.              Exit
 -------------------------------------------------------------------------------
+
+jeu: system execution failed.
+Following is the set of recorded exceptions:
+
+******************************** Thread exception *****************************
+In thread           Root thread            0x0 (thread id)
+*******************************************************************************
+-------------------------------------------------------------------------------
+Class / Object      Routine                Nature of exception           Effect
+-------------------------------------------------------------------------------
+BLOC                set_type @1            type_valide:                 
+<0000000003CEE2AC>                         Precondition violated.        Fail
+-------------------------------------------------------------------------------
+TABLEAU             tourner_blocs @5                                    
+<0000000003CA0FA8>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+AFFICHAGE_PARTIE    on_mouse_down @6                                    
+<0000000003CA0AEC>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+PROCEDURE           fast_call                                           
+<0000000003CA6270>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+PROCEDURE           call @5                                             
+<0000000003CA6270>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+ACTION_SEQUENCE     call @22                                            
+<0000000003CA5CAC>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_EVENT_CONTROLLER
+                    decode_mouse_button_event @10
+<0000000003CA573C>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_EVENT_CONTROLLER
+                    decode_event @9        
+<0000000003CA573C>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_EVENT_CONTROLLER
+                    poll_event @4          
+<0000000003CA573C>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_LIB_CONTROLLER update @1                                           
+<0000000003C844B4>  (From GAME_SDL_CONTROLLER)
+                                           Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_LIB_CONTROLLER launch @4                                           
+<0000000003C844B4>  (From GAME_SDL_CONTROLLER)
+                                           Routine failure.              Fail
+-------------------------------------------------------------------------------
+FENETRE             lancer_jeu @4                                       
+<0000000003C84448>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+FENETRE             make @9                                             
+<0000000003C84448>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+APPLICATION         make @1                                             
+<0000000003C84418>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+APPLICATION         root's creation                                     
+<0000000003C84418>                         Routine failure.              Exit
+-------------------------------------------------------------------------------
+
+jeu: system execution failed.
+Following is the set of recorded exceptions:
+
+******************************** Thread exception *****************************
+In thread           Root thread            0x0 (thread id)
+*******************************************************************************
+-------------------------------------------------------------------------------
+Class / Object      Routine                Nature of exception           Effect
+-------------------------------------------------------------------------------
+BLOC                set_type @1            type_valide:                 
+<0000000003E94EAC>                         Precondition violated.        Fail
+-------------------------------------------------------------------------------
+TABLEAU             tourner_blocs @5                                    
+<0000000003E546D0>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+AFFICHAGE_PARTIE    on_mouse_down @6                                    
+<0000000003E54214>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+PROCEDURE           fast_call                                           
+<0000000003E59518>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+PROCEDURE           call @5                                             
+<0000000003E59518>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+ACTION_SEQUENCE     call @22                                            
+<0000000003E58F54>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_EVENT_CONTROLLER
+                    decode_mouse_button_event @10
+<0000000003E589E4>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_EVENT_CONTROLLER
+                    decode_event @9        
+<0000000003E589E4>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_EVENT_CONTROLLER
+                    poll_event @4          
+<0000000003E589E4>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_LIB_CONTROLLER update @1                                           
+<0000000003E424B4>  (From GAME_SDL_CONTROLLER)
+                                           Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_LIB_CONTROLLER launch @4                                           
+<0000000003E424B4>  (From GAME_SDL_CONTROLLER)
+                                           Routine failure.              Fail
+-------------------------------------------------------------------------------
+FENETRE             lancer_jeu @4                                       
+<0000000003E42448>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+FENETRE             make @9                                             
+<0000000003E42448>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+APPLICATION         make @1                                             
+<0000000003E42418>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+APPLICATION         root's creation                                     
+<0000000003E42418>                         Routine failure.              Exit
+-------------------------------------------------------------------------------
+
+jeu: system execution failed.
+Following is the set of recorded exceptions:
+
+******************************** Thread exception *****************************
+In thread           Root thread            0x0 (thread id)
+*******************************************************************************
+-------------------------------------------------------------------------------
+Class / Object      Routine                Nature of exception           Effect
+-------------------------------------------------------------------------------
+BLOC                set_type @1            type_valide:                 
+<000000000404D238>                         Precondition violated.        Fail
+-------------------------------------------------------------------------------
+TABLEAU             tourner_blocs @5                                    
+<0000000003F8CAAC>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+AFFICHAGE_PARTIE    on_mouse_down @6                                    
+<0000000003F8C5F0>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+PROCEDURE           fast_call                                           
+<0000000003F91F24>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+PROCEDURE           call @5                                             
+<0000000003F91F24>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+ACTION_SEQUENCE     call @22                                            
+<0000000003F91960>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_EVENT_CONTROLLER
+                    decode_mouse_button_event @10
+<0000000003F913F0>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_EVENT_CONTROLLER
+                    decode_event @9        
+<0000000003F913F0>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_EVENT_CONTROLLER
+                    poll_event @4          
+<0000000003F913F0>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_LIB_CONTROLLER update @1                                           
+<0000000003EEE4B4>  (From GAME_SDL_CONTROLLER)
+                                           Routine failure.              Fail
+-------------------------------------------------------------------------------
+GAME_LIB_CONTROLLER launch @4                                           
+<0000000003EEE4B4>  (From GAME_SDL_CONTROLLER)
+                                           Routine failure.              Fail
+-------------------------------------------------------------------------------
+FENETRE             lancer_jeu @4                                       
+<0000000003EEE448>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+FENETRE             make @9                                             
+<0000000003EEE448>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+APPLICATION         make @1                                             
+<0000000003EEE418>                         Routine failure.              Fail
+-------------------------------------------------------------------------------
+APPLICATION         root's creation                                     
+<0000000003EEE418>                         Routine failure.              Exit
+-------------------------------------------------------------------------------

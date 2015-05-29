@@ -23,6 +23,9 @@ feature {NONE} -- Initialisation
 			ligne: LIST[BLOC]
 			nouveau_bloc: BLOC
 		do
+			nb_blocs_detruits := 0
+			nb_bonus_temps := 0
+
 			create {ARRAYED_LIST[ARRAYED_LIST[BLOC]]} liste_blocs.make(regles_partie.taille_tableau)
 
 			from
@@ -62,6 +65,9 @@ feature -- Attributs
 	nb_blocs_detruits: INTEGER
 		-- Nombre de blocs qui ont été détruits mais dont les points n'ont pas été calculés
 
+	nb_bonus_temps: INTEGER
+		-- Nombre de blocs Temps Bonus qui ont été détruits dont le temps n'a pas été ajouté
+
 
 
 feature -- Setters
@@ -70,6 +76,28 @@ feature -- Setters
 		-- Assigne la liste des blocs du tableau
 		do
 			liste_blocs := a_liste_blocs
+		ensure
+			liste_blocs_set: liste_blocs = a_liste_blocs
+		end
+
+	set_nb_blocs_detruits(a_nb_blocs_detruits: INTEGER)
+		-- Assigne le nombre de blocs detruits
+		require
+			nb_blocs_detruits_valide: a_nb_blocs_detruits >= 0
+		do
+			nb_blocs_detruits := a_nb_blocs_detruits
+		ensure
+			nb_blocs_detruits_set: nb_blocs_detruits = a_nb_blocs_detruits
+		end
+
+	set_nb_bonus_temps(a_nb_bonus_temps: INTEGER)
+		-- Assigne le nombre de bonus temps
+		require
+			nb_bonus_temps_valide: a_nb_bonus_temps >= 0
+		do
+			nb_bonus_temps := a_nb_bonus_temps
+		ensure
+			nb_bonus_temps_set: nb_bonus_temps = a_nb_bonus_temps
 		end
 
 feature -- Methodes
@@ -86,25 +114,25 @@ feature -- Methodes
 
 			-- Création des blocs temporaires pour stocker les informations
 			create l_bloc_1.make_hasard (1, 1)
-			l_bloc_1.set_couleur (liste_blocs.at(y_depart).at(x_depart).couleur)
-			l_bloc_1.set_type (liste_blocs.at(y_depart).at(x_depart).type)
+			l_bloc_1.couleur := liste_blocs.at(y_depart).at(x_depart).couleur
+			l_bloc_1.type := liste_blocs.at(y_depart).at(x_depart).type
 
 			create l_bloc_2.make_hasard (1, 1)
-			l_bloc_2.set_couleur (liste_blocs.at(y_depart).at(x_depart + 1).couleur)
-			l_bloc_2.set_type (liste_blocs.at(y_depart).at(x_depart + 1).type)
+			l_bloc_2.couleur := liste_blocs.at(y_depart).at(x_depart + 1).couleur
+			l_bloc_2.type := liste_blocs.at(y_depart).at(x_depart + 1).type
 
 			create l_bloc_3.make_hasard (1, 1)
-			l_bloc_3.set_couleur (liste_blocs.at(y_depart + 1).at(x_depart + 1).couleur)
-			l_bloc_3.set_type (liste_blocs.at(y_depart + 1).at(x_depart + 1).type)
+			l_bloc_3.couleur := liste_blocs.at(y_depart + 1).at(x_depart + 1).couleur
+			l_bloc_3.type := liste_blocs.at(y_depart + 1).at(x_depart + 1).type
 
 			create l_bloc_4.make_hasard (1, 1)
-			l_bloc_4.set_couleur (liste_blocs.at(y_depart + 1).at(x_depart).couleur)
-			l_bloc_4.set_type (liste_blocs.at(y_depart + 1).at(x_depart).type)
+			l_bloc_4.couleur := liste_blocs.at(y_depart + 1).at(x_depart).couleur
+			l_bloc_4.type := liste_blocs.at(y_depart + 1).at(x_depart).type
 
 
 			-- Échange
-			liste_blocs.at(y_depart).at(x_depart).set_couleur (l_bloc_4.couleur)
-			liste_blocs.at(y_depart).at(x_depart).set_type (l_bloc_4.type)
+			liste_blocs.at(y_depart).at(x_depart).couleur := l_bloc_4.couleur
+			liste_blocs.at(y_depart).at(x_depart).type := l_bloc_4.type
 			liste_blocs.at(y_depart).at(x_depart).selectionner_image
 
 			liste_blocs.at(y_depart).at(x_depart + 1).couleur := l_bloc_1.couleur
@@ -118,8 +146,6 @@ feature -- Methodes
 			liste_blocs.at(y_depart + 1).at(x_depart).couleur := l_bloc_3.couleur
 			liste_blocs.at(y_depart + 1).at(x_depart).type := l_bloc_3.type
 			liste_blocs.at(y_depart + 1).at(x_depart).selectionner_image
-
-			--sons_factory.jouer_son (sons_factory.son_tourner)
 
 		end
 
@@ -173,23 +199,33 @@ feature -- Methodes
 		-- Vérifie les 3 blocs autour du bloc envoyé afin de voir s'ils sont de la même couleur
 		local
 			l_compteur: INTEGER
-			l_bloc_gauche: BLOC
+			l_bloc_comparaison: BLOC
+			l_bloc_haut: BLOC
 			l_bloc_bas: BLOC
 			l_bloc_gauche_bas: BLOC
 		do
-			l_bloc_gauche := liste_blocs.at (a_bloc.y).at (a_bloc.x +1)
+			--
+			if attached {TYPE_ARC_EN_CIEL} a_bloc.type then
+				l_bloc_comparaison := liste_blocs.at (a_bloc.y).at (a_bloc.x +1)
+				l_bloc_haut := liste_blocs.at (a_bloc.y).at (a_bloc.x )
+			else
+				l_bloc_comparaison := liste_blocs.at (a_bloc.y).at (a_bloc.x)
+				l_bloc_haut := liste_blocs.at (a_bloc.y).at (a_bloc.x + 1)
+
+			end
+
 			l_bloc_bas := liste_blocs.at (a_bloc.y + 1).at (a_bloc.x)
 			l_bloc_gauche_bas := liste_blocs.at (a_bloc.y + 1).at (a_bloc.x +1)
 
-			if attached {TYPE_ARC_EN_CIEL} l_bloc_gauche.type or l_bloc_gauche.couleur = a_bloc.couleur then
+			if attached {TYPE_ARC_EN_CIEL} l_bloc_haut.type or l_bloc_haut.couleur = l_bloc_comparaison.couleur then
 				l_compteur := l_compteur + 1
 			end
 
-			if attached {TYPE_ARC_EN_CIEL} l_bloc_bas.type or l_bloc_bas.couleur = a_bloc.couleur then
+			if attached {TYPE_ARC_EN_CIEL} l_bloc_bas.type or l_bloc_bas.couleur = l_bloc_comparaison.couleur then
 				l_compteur := l_compteur + 1
 			end
 
-			if attached {TYPE_ARC_EN_CIEL} l_bloc_gauche_bas.type or l_bloc_gauche_bas.couleur = a_bloc.couleur then
+			if attached {TYPE_ARC_EN_CIEL} l_bloc_gauche_bas.type or l_bloc_gauche_bas.couleur = l_bloc_comparaison.couleur then
 				l_compteur := l_compteur + 1
 			end
 
@@ -206,8 +242,11 @@ feature -- Methodes
 		-- Détruit les blocs qui ont formé un carré, ajoute les points correspondants et génère de nouveaux blocs
 		local
 			l_nb_blocs_detruits: INTEGER
+			l_nb_bonus_temps: INTEGER
 		do
 			l_nb_blocs_detruits := a_blocs_a_detruire.count
+			l_nb_bonus_temps := 0
+
 
 			across
 				a_blocs_a_detruire
@@ -216,10 +255,10 @@ feature -- Methodes
 			loop
 				-- Vérifie si le bloc à détruire a un type spécial
 				if attached {TYPE_DOUBLE_POINTS} liste_blocs.at (la_blocs_a_detruire.item.y).at (la_blocs_a_detruire.item.x).type then
-					l_nb_blocs_detruits := l_nb_blocs_detruits + 1
+					l_nb_blocs_detruits := l_nb_blocs_detruits * 2
 
 				elseif attached {TYPE_TEMPS_BONUS} liste_blocs.at (la_blocs_a_detruire.item.y).at (la_blocs_a_detruire.item.x).type then
-					-- À faire: gérer temps à ajouter
+					l_nb_bonus_temps := l_nb_bonus_temps + 1
 
 				end
 
@@ -230,6 +269,8 @@ feature -- Methodes
 
 			-- Calcul des points à ajouter
 			nb_blocs_detruits := nb_blocs_detruits + l_nb_blocs_detruits
+			nb_bonus_temps := nb_bonus_temps + l_nb_bonus_temps
+
 
 			-- Son
 			sons_factory.jouer_son (sons_factory.son_detruire)
@@ -244,8 +285,22 @@ feature -- Methodes
 		-- Remet à zéro le nombre de blocs détruits (lorsque les points correspondants ont été ajoutés)
 		do
 			nb_blocs_detruits := 0
+		ensure
+			nb_blocs_detruits_reinitialise: nb_blocs_detruits = 0
 		end
 
+	reset_nb_bonus_temps
+		-- Remet à zéro le nombre de bonus de temps à ajouter (lorsque la durée de la partie a été ajustée)
+		do
+			nb_bonus_temps := 0
+		ensure
+			nb_bonus_temps_reinitialise: nb_bonus_temps = 0
+		end
+
+invariant
+	liste_blocs_initialise: liste_blocs /= Void
+	nb_blocs_detruits_initialise: nb_blocs_detruits /= Void
+	nb_bonus_temps_initialise: nb_bonus_temps /= Void
 
 
 end

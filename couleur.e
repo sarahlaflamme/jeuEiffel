@@ -14,8 +14,8 @@ feature {NONE} -- Initialisation
 	make(a_nom: STRING)
 			-- Constructeur de `Current'.
 		do
-			set_nom(a_nom)
-			
+			nom := a_nom
+
 		end
 
 
@@ -31,6 +31,11 @@ feature -- Setters
 		-- Assigne le nom de la couleur
 		do
 			nom := a_nom
+		ensure
+			nom_set: nom = a_nom
 		end
 
+invariant
+	nom_initialise: nom /= Void
+	
 end

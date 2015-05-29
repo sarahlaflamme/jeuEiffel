@@ -7,18 +7,23 @@
 		</option>
 		<setting name="concurrency" value="thread"/>
 		<precompile name="base-mt_precompile" location="$ISE_PRECOMP\base-mt.ecf"/>
+		<library name="audio_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_lib\audio_lib.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="eiffel_game_lib" location="$EIFFEL_LIBRARY\contrib\library\game\game_core_lib\game_core_lib.ecf"/>
 		<library name="game_images_files_lib" location="$EIFFEL_LIBRARY\contrib\library\game\game_images_files_lib\game_images_files_lib.ecf"/>
 		<library name="game_text_lib" location="$EIFFEL_LIBRARY\contrib\library\game\game_text_lib\game_text_lib.ecf"/>
-		<library name="audio_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_lib\audio_lib.ecf"/>
-		<library name="audio_snd_files_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_snd_files_lib\audio_snd_files_lib.ecf"/>
+		<library name="net" location="$ISE_LIBRARY\library\net\net.ecf"/>
+		<library name="testing" location="$ISE_LIBRARY\library\testing\testing.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
+		<library name="time_french" location="$ISE_LIBRARY\library\time\time_french.ecf"/>
 		<cluster name="jeu" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
 				<exclude>/CVS$</exclude>
+				<exclude>/Images$</exclude>
 				<exclude>/.svn$</exclude>
+				<exclude>/.git$</exclude>
+				<exclude>/Sons$</exclude>
 			</file_rule>
 		</cluster>
 	</target>

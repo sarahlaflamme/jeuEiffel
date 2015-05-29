@@ -22,12 +22,14 @@ feature {NONE} -- Initialisation
 			create {GAME_SURFACE_IMG_FILE} image_bouton_jouer_hover.make_with_alpha ("Images/Bouton_Jouer_hover.png")
 			create {GAME_SURFACE_IMG_FILE} image_bouton_instructions.make_with_alpha ("Images/Bouton_Instructions.png")
 			create {GAME_SURFACE_IMG_FILE} image_bouton_instructions_hover.make_with_alpha ("Images/Bouton_Instructions_Hover.png")
-			create {GAME_SURFACE_IMG_FILE} image_bouton_a_propos.make_with_alpha ("Images/Bouton_A_Propos.png")
-			create {GAME_SURFACE_IMG_FILE} image_bouton_a_propos_hover.make_with_alpha ("Images/Bouton_A_Propos_Hover.png")
+			create {GAME_SURFACE_IMG_FILE} image_bouton_commencer_partie.make_with_alpha ("Images/Bouton_Commencer_Partie.png")
+			create {GAME_SURFACE_IMG_FILE} image_bouton_commencer_partie_hover.make_with_alpha ("Images/Bouton_Commencer_Partie_Hover.png")
 			create {GAME_SURFACE_IMG_FILE} image_bouton_terminer.make_with_alpha ("Images/Bouton_Terminer.png")
 			create {GAME_SURFACE_IMG_FILE} image_bouton_terminer_hover.make_with_alpha ("Images/Bouton_Terminer_Hover.png")
 			create {GAME_SURFACE_IMG_FILE} image_bouton_enregistrer_score.make_with_alpha ("Images/Bouton_Enregistrer_Score.png")
 			create {GAME_SURFACE_IMG_FILE} image_bouton_enregistrer_score_hover.make_with_alpha ("Images/Bouton_Enregistrer_Score_Hover.png")
+			create {GAME_SURFACE_IMG_FILE} image_bouton_quitter.make_with_alpha ("Images/Bouton_Quitter.png")
+			create {GAME_SURFACE_IMG_FILE} image_bouton_quitter_hover.make_with_alpha ("Images/Bouton_Quitter_Hover.png")
 
 
 			-- Blocs
@@ -141,10 +143,10 @@ feature -- Images
 		-- Image du bouton Instructions
 	image_bouton_instructions_hover: GAME_SURFACE
 		-- Image du bouton Instructions lorsque la souris est dessus
-	image_bouton_a_propos: GAME_SURFACE
-		-- Image du bouton À propos
-	image_bouton_a_propos_hover: GAME_SURFACE
-		-- Image du bouton À propos lorsque la souris est dessus
+	image_bouton_commencer_partie: GAME_SURFACE
+		-- Image du bouton Commencer partie
+	image_bouton_commencer_partie_hover: GAME_SURFACE
+		-- Image du bouton Commencer partie lorsque la souris est dessus
 	image_bouton_terminer: GAME_SURFACE
 		-- Image du bouton Terminer
 	image_bouton_terminer_hover: GAME_SURFACE
@@ -153,6 +155,10 @@ feature -- Images
 		-- Image du bouton Enregistrer Score
 	image_bouton_enregistrer_score_hover: GAME_SURFACE
 		-- Image du bouton Enregistrer Score lorsque la souris est dessus
+	image_bouton_quitter: GAME_SURFACE
+		-- Image du bouton Quitter
+	image_bouton_quitter_hover: GAME_SURFACE
+		-- Image du bouton Quitter lorsque la souris est dessus
 
 	image_sablier: GAME_SURFACE
 		-- Image du sablier au dessus du temps restant dans une partie

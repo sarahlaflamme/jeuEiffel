@@ -26,12 +26,16 @@ feature {NONE} -- Initialisation
 			controleur_audio := controleurs_factory.controleur_audio
 			controleur_texte := controleurs_factory.controleur_texte
 
+			depart_x := 560
+			depart_y := 300
+
+
 			create police_texte_score.make ("estre.ttf", 30)
 			create couleur_texte.make_rgb(43, 24, 24)
 			create couleur_fond.make_rgb(255, 255, 255)
 
-			set_fond_depart_x(560)
-			set_fond_depart_y(300)
+			fond_depart_x := depart_x
+			fond_depart_y := depart_y
 
 			create fond.make (200, 130)
 			fond.fill_rect (couleur_fond, 0, 0, 200, 130)
@@ -69,28 +73,38 @@ feature -- Attributs
 	fond_depart_y: INTEGER assign set_fond_depart_y
 		-- Position verticale dans la fenêtre à laquelle le rectangle commence
 
+
 feature -- Setters
 
 	set_score(a_score: INTEGER)
 		-- Assigne le score à afficher
-
+		require
+			score_valide: a_score >= 0
 		do
 			score := a_score
+		ensure
+			score_set: score = a_score
 		end
 
 
 	set_fond_depart_x(a_fond_depart_x: INTEGER)
 		-- Assigne la position x de départ du fond
-
+		require
+			fond_depart_x_valide: a_fond_depart_x >= 0
 		do
 			fond_depart_x := a_fond_depart_x
+		ensure
+			fond_depart_x_set: fond_depart_x = a_fond_depart_x
 		end
 
 	set_fond_depart_y(a_fond_depart_y: INTEGER)
 		-- Assigne la position y de départ du fond
-
+		require
+			fond_depart_y_valide: a_fond_depart_y >= 0
 		do
 			fond_depart_y := a_fond_depart_y
+		ensure
+			fond_depart_y_set: fond_depart_y = a_fond_depart_y
 		end
 
 
@@ -105,5 +119,17 @@ feature -- Méthodes
 			create texte_score.make_shaded (score.out + " points", police_texte_score, couleur_texte, couleur_fond)
 			controleur.screen_surface.draw_surface (texte_score, fond_depart_x + fond.width//2 - texte_score.width//2, fond_depart_y + 60)
 		end
+
+
+invariant
+	score_initialise: score /= Void
+	police_texte_score_initialise: police_texte_score /= Void
+	couleur_texte_initialise: couleur_texte /= Void
+	couleur_fond_initialise: couleur_fond /= Void
+	titre_score_initialise: titre_score /= Void
+	fond_initialise: fond /= Void
+	fond_depart_x_initialise: fond_depart_x /= Void
+	fond_depart_y_initialise: fond_depart_y /= Void
+
 
 end

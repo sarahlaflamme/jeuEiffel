@@ -16,10 +16,10 @@ feature {NONE} -- Initialisation
 		do
 			nb_instance.put (nb_instance.item + 1)
 
-			set_taille_tableau(8)
-			set_duree_partie(500)
-			set_points_par_bloc(1)
-			set_nb_temps_bonus(25)
+			taille_tableau := 8
+			duree_partie := 60
+			points_par_bloc := 1
+			nb_temps_bonus := 5
 			generer_liste_couleurs
 			generer_liste_types
 			generer_liste_types_probabilites
@@ -54,47 +54,66 @@ feature -- Setters
 
 	set_taille_tableau(a_taille_tableau: INTEGER)
 		-- Assigne une valeur à taille_tableau
+		require
+			taille_tableau_valide: a_taille_tableau >= 0
 		do
 			taille_tableau := a_taille_tableau
+		ensure
+			taille_tableau_set: taille_tableau = a_taille_tableau
 		end
 
 	set_duree_partie(a_duree_partie: INTEGER)
 		-- Assigne une valeur à duree_partie
+		require
+			duree_partie_valide: a_duree_partie >= 0
 		do
 			duree_partie := a_duree_partie
+		ensure
+			duree_partie_set: duree_partie = a_duree_partie
 		end
 
 	set_points_par_bloc(a_points_par_bloc: INTEGER)
 		-- Assigne une valeur à points_par_bloc
+		require
+			points_par_bloc_valide: a_points_par_bloc >= 0
 		do
 			points_par_bloc := a_points_par_bloc
+		ensure
+			points_par_bloc_set: points_par_bloc = a_points_par_bloc
 		end
 
 	set_nb_temps_bonus(a_nb_temps_bonus: INTEGER)
 		-- Assigne une valeur à nb_temps_bonus
+		require
+			nb_temps_bonus_valide: a_nb_temps_bonus >= 0
 		do
 			nb_temps_bonus := a_nb_temps_bonus
+		ensure
+			nb_temps_bonus_set: nb_temps_bonus = a_nb_temps_bonus
 		end
 
 	set_liste_couleurs(a_liste_couleurs: LIST[COULEUR])
 		-- Création de la liste des couleurs disponibles
 		do
 			liste_couleurs := a_liste_couleurs
-
+		ensure
+			liste_couleurs_set: liste_couleurs = a_liste_couleurs
 		end
 
 	set_liste_types(a_liste_types: LIST[TYPE_BLOC])
 		-- Création de la liste des types disponibles
 		do
 			liste_types := a_liste_types
-
+		ensure
+			liste_types_set: liste_types = a_liste_types
 		end
 
 	set_liste_types_probabilites(a_liste_types_probabilites: LIST[TYPE_BLOC])
 		-- Création de la liste des types disponibles
 		do
 			liste_types_probabilites := a_liste_types_probabilites
-
+		ensure
+			liste_types_probabilites_set: liste_types_probabilites = a_liste_types_probabilites
 		end
 
 
@@ -124,8 +143,7 @@ feature -- Méthodes
 			l_liste_couleurs.extend(l_couleur_4)
 			l_liste_couleurs.extend(l_couleur_5)
 
-			set_liste_couleurs(l_liste_couleurs)
-
+			liste_couleurs := l_liste_couleurs
 		end
 
 	generer_liste_types
@@ -148,7 +166,7 @@ feature -- Méthodes
 			l_liste_types.extend(l_type_3)
 			l_liste_types.extend(l_type_4)
 
-			set_liste_types(l_liste_types)
+			liste_types := l_liste_types
 
 		end
 
@@ -182,7 +200,7 @@ feature -- Méthodes
 			l_liste_types_probabilites.extend(l_type_3)
 			l_liste_types_probabilites.extend(l_type_4)
 
-			set_liste_types_probabilites(l_liste_types_probabilites)
+			liste_types_probabilites := l_liste_types_probabilites
 
 		end
 
@@ -195,7 +213,7 @@ feature {NONE}
 		end
 
 invariant
-	Is_Valid_Singleton: nb_instance.item = 1
+	singleton_valide: nb_instance.item = 1
 
 
 end

@@ -27,8 +27,8 @@ feature {NONE} -- Initialization
 			l_chiffre_couleur:INTEGER
 			l_chiffre_type:INTEGER
 		do
-			set_x(a_x)
-			set_y(a_y)
+			x := a_x
+			y := a_y
 
 			-- Générer un nombre au hasard pour chiffre_couleur (entre 1 et 5)
 			l_nb_couleurs := regles_partie.liste_couleurs.count
@@ -40,8 +40,8 @@ feature {NONE} -- Initialization
 			controleurs_factory.controleur.generate_new_random
 			l_chiffre_type := controleurs_factory.controleur.last_random_integer_between (1, l_nb_types)
 
-			set_couleur(regles_partie.liste_couleurs[l_chiffre_couleur])
-			set_type(regles_partie.liste_types_probabilites[l_chiffre_type])
+			couleur := regles_partie.liste_couleurs[l_chiffre_couleur]
+			type := regles_partie.liste_types_probabilites[l_chiffre_type]
 			selectionner_image
 
 
@@ -77,44 +77,70 @@ feature -- Setters
 
 	set_x(a_x: INTEGER)
 		-- Assigne une valeur à x
+		require
+			x_valide: a_x >= 1 and a_x <= regles_partie.taille_tableau
 		do
 			x := a_x
+		ensure
+			x_set: x = a_x
 		end
 
 	set_y(a_y: INTEGER)
 		-- Assigne une valeur à y
+		require
+			y_valide: a_y >= 1 and a_y <= regles_partie.taille_tableau
 		do
 			y := a_y
+		ensure
+			y_set: y = a_y
 		end
 
 	set_couleur(a_couleur: COULEUR)
 		-- Assigne la couleur au bloc
+		require
+			couleur_valide: regles_partie.liste_couleurs.has (a_couleur)
 		do
 			couleur := a_couleur
+		ensure
+			couleur_set: couleur = a_couleur
 		end
 
 	set_type(a_type: TYPE_BLOC)
 		-- Assigne le type au bloc
 		do
 			type := a_type
+		ensure
+			type_set: type = a_type
 		end
 
 	set_image(a_image: GAME_SURFACE)
 		-- Assigne l'image au bloc
+		require
+			image_valide: a_image /= Void
 		do
 			image := a_image
+		ensure
+			image_set: image = a_image
 		end
 
 	set_image_depart_x(a_image_depart_x: INTEGER)
 		-- Assigne la position horizontale de départ de l'image
+		require
+			image_depart_x_valide: a_image_depart_x >= 0
 		do
 			image_depart_x := a_image_depart_x
+		ensure
+			image_depart_x_set: image_depart_x = a_image_depart_x
 		end
 
 	set_image_depart_y(a_image_depart_y: INTEGER)
 		-- Assigne la position verticale de départ de l'image
+		require
+			image_depart_y_valide: a_image_depart_y >= 0
 		do
 			image_depart_y := a_image_depart_y
+		ensure
+			image_depart_y_set: image_depart_y = a_image_depart_y
 		end
 
 
@@ -129,103 +155,94 @@ feature -- Methodes
 
 				set_image(images_factory.image_bloc_arc_en_ciel1)
 
---			else
---				across
---					regles_partie.liste_couleurs
---				as
---					la_liste_couleurs
---				loop
-
---					if attached {TYPE_NORMAL} type then
-
---						la_liste_couleurs.item.nom
---						set_image("images_factory.image_bloc_" + la_liste_couleurs.item.nom + "normal")
-
---					elseif attached {TYPE_DOUBLE_POINTS} type then
-
-
---					elseif attached {TYPE_TEMPS_BONUS} type then
---					
-
---					else
-
-
---					end
-
---				end
-
---			end
-
 			elseif attached {TYPE_NORMAL} type then
 
-				if couleur.nom.is_equal ("Bleu") then
+				if couleur = regles_partie.liste_couleurs.at (1) then
 					set_image(images_factory.image_bloc_bleu_normal)
 
-				elseif couleur.nom.is_equal ("Jaune") then
+				elseif couleur = regles_partie.liste_couleurs.at (2) then
 					set_image(images_factory.image_bloc_jaune_normal)
 
-				elseif couleur.nom.is_equal ("Rose") then
+				elseif couleur = regles_partie.liste_couleurs.at (3) then
 					set_image(images_factory.image_bloc_rose_normal)
 
-				elseif couleur.nom.is_equal ("Orange") then
+				elseif couleur = regles_partie.liste_couleurs.at (4) then
 					set_image(images_factory.image_bloc_orange_normal)
 
-				elseif couleur.nom.is_equal ("Mauve") then
+				elseif couleur = regles_partie.liste_couleurs.at (5) then
 					set_image(images_factory.image_bloc_mauve_normal)
 
 				else
-					-- Erreur
-
+					check
+						False
+					end
 				end
 
 			elseif attached {TYPE_DOUBLE_POINTS} type then
 
-				if couleur.nom.is_equal ("Bleu") then
+				if couleur = regles_partie.liste_couleurs.at (1) then
 					set_image(images_factory.image_bloc_bleu_double_points)
 
-				elseif couleur.nom.is_equal ("Jaune") then
+				elseif couleur = regles_partie.liste_couleurs.at (2) then
 					set_image(images_factory.image_bloc_jaune_double_points)
 
-				elseif couleur.nom.is_equal ("Rose") then
+				elseif couleur = regles_partie.liste_couleurs.at (3) then
 					set_image(images_factory.image_bloc_rose_double_points)
 
-				elseif couleur.nom.is_equal ("Orange") then
+				elseif couleur = regles_partie.liste_couleurs.at (4) then
 					set_image(images_factory.image_bloc_orange_double_points)
 
-				elseif couleur.nom.is_equal ("Mauve") then
+				elseif couleur = regles_partie.liste_couleurs.at (5) then
 					set_image(images_factory.image_bloc_mauve_double_points)
 
 				else
-					-- Erreur
+					check
+						False
+					end
 				end
 
 
 			elseif attached {TYPE_TEMPS_BONUS} type then
 
-				if couleur.nom.is_equal ("Bleu") then
+				if couleur = regles_partie.liste_couleurs.at (1) then
 					set_image(images_factory.image_bloc_bleu_temps_bonus)
 
-				elseif couleur.nom.is_equal ("Jaune") then
+				elseif couleur = regles_partie.liste_couleurs.at (2) then
 					set_image(images_factory.image_bloc_jaune_temps_bonus)
 
-				elseif couleur.nom.is_equal ("Rose") then
+				elseif couleur = regles_partie.liste_couleurs.at (3) then
 					set_image(images_factory.image_bloc_rose_temps_bonus)
 
-				elseif couleur.nom.is_equal ("Orange") then
+				elseif couleur = regles_partie.liste_couleurs.at (4) then
 					set_image(images_factory.image_bloc_orange_temps_bonus)
 
-				elseif couleur.nom.is_equal ("Mauve") then
+				elseif couleur = regles_partie.liste_couleurs.at (5) then
 					set_image(images_factory.image_bloc_mauve_temps_bonus)
 
 				else
-					-- Erreur
+					check
+						False
+					end
 				end
 
 			else
-
-				-- Erreur
+				check
+					False
+				end
 			end
 
 		end
+
+
+	invariant
+		x_valide: x >= 1 and x <= regles_partie.taille_tableau
+		y_valide: y >= 1 and y <= regles_partie.taille_tableau
+		x_initialise: x /= Void
+		y_initialise: y /= Void
+		couleur_initialise: couleur /= Void
+		type_initialise: type /= Void
+		image_initialise: image /= Void
+		image_depart_x_initialise: image_depart_x /= Void
+		image_depart_y_initialise: image_depart_y /= Void
 
 end
